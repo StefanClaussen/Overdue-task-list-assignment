@@ -10,4 +10,9 @@
 
 @interface STCViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+- (IBAction)reorderBarButtonPressed:(UIBarButtonItem *)sender;
+- (IBAction)addTaskBarBarButtonPressed:(UIBarButtonItem *)sender;
+
 @end
