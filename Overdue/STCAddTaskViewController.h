@@ -1,16 +1,21 @@
 //
 //  STCAddTaskViewController.h
 //  Overdue
-//
-//  Created by Stefan Claussen on 12/05/2014.
-//  Copyright (c) 2014 One foot after the other. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "STCTask.h"
 
+@protocol STCAddTaskViewControllerDelegate <NSObject>
+
+- (void)didCancel;
+- (void)didAddTask:(STCTask *)task;
+
+@end
+
 
 @interface STCAddTaskViewController : UIViewController
+
+@property (weak, nonatomic) id <STCAddTaskViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) IBOutlet UITextField *textField;
 @property (strong, nonatomic) IBOutlet UITextView *textView;

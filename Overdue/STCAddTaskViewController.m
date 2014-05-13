@@ -1,10 +1,6 @@
 //
 //  STCAddTaskViewController.m
 //  Overdue
-//
-//  Created by Stefan Claussen on 12/05/2014.
-//  Copyright (c) 2014 One foot after the other. All rights reserved.
-//
 
 #import "STCAddTaskViewController.h"
 
@@ -46,9 +42,24 @@
 }
 */
 
-- (IBAction)addTaskButtonPressed:(UIButton *)sender {
+- (STCTask *)returnNewTaskObject
+{
+    STCTask *taskObject = [[STCTask alloc]init];
+    taskObject.title = self.textField.text;
+    taskObject.description = self.textView.text;
+    taskObject.date = self.datePicker.date;
+    taskObject.isCompleted = NO;
+    
+    return taskObject;
 }
 
-- (IBAction)cancelButtonPressed:(UIButton *)sender {
+- (IBAction)addTaskButtonPressed:(UIButton *)sender
+{
+    [self.delegate didAddTask:[self returnNewTaskObject]];
+}
+
+- (IBAction)cancelButtonPressed:(UIButton *)sender
+{
+    [self.delegate didCancel];
 }
 @end

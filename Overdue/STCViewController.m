@@ -1,10 +1,6 @@
 //
 //  STCViewController.m
 //  Overdue
-//
-//  Created by Stefan Claussen on 12/05/2014.
-//  Copyright (c) 2014 One foot after the other. All rights reserved.
-//
 
 #import "STCViewController.h"
 
@@ -14,10 +10,35 @@
 
 @implementation STCViewController
 
+- (NSMutableArray *)taskObjects
+{
+    if (!_taskObjects) {
+        _taskObjects = [[NSMutableArray alloc]init];
+    }
+    return _taskObjects;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    NSArray *tasksAsPropertyLists = [[NSUserDefaults standardUserDefaults] arrayForKey:TASK_OBJECTS_KEY];
+    
+    for (NSDictionary *dictionary in tasksAsPropertyLists)
+    {
+        STCTask *taskObject = [self taskObjectForDictionary:dictionary];
+        [self.taskObjects addObject:taskObject];
+    }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[STCAddTaskViewController class]])
+    {
+        STCAddTaskViewController *addTaskViewController = segue.destinationViewController;
+        addTaskViewController.delegate = self;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -29,6 +50,47 @@
 - (IBAction)reorderBarButtonPressed:(UIBarButtonItem *)sender {
 }
 
-- (IBAction)addTaskBarBarButtonPressed:(UIBarButtonItem *)sender {
+- (IBAction)addTaskBarBarButtonPressed:(UIBarButtonItem *)sender
+{
+    [self performSegueWithIdentifier:@"toAddTaskViewControllerSegue" sender:nil];
 }
+
+#pragma mark - STCAddTaskViewControllerDelegate
+
+-(void)didAddTask:(STCTask *)task
+{
+    [self.taskObjects addObject:task];
+    
+    NSLog(@"%@", task.title);
+    
+    NSMutableArray *taskObjectsAsPropertyLists = [[[NSUserDefaults standardUserDefaults]arrayForKey:TASK_OBJECTS_KEY] mutableCopy];
+    if (!taskObjectsAsPropertyLists) taskObjectsAsPropertyLists = [[NSMutableArray alloc]init];
+    
+    [taskObjectsAsPropertyLists addObject:[self taskObjectAsAPropertyList:task]];
+    [[NSUserDefaults standardUserDefaults]setObject:taskObjectsAsPropertyLists forKey:TASK_OBJECTS_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.tableView reloadData];
+}
+
+-(void)didCancel
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - helper methods
+
+- (NSDictionary *)taskObjectAsAPropertyList:(STCTask *)taskObject
+{
+    NSDictionary *dictionary = @{TASK_TITLE : taskObject.title, TASK_DESCRIPTION : taskObject.description, TASK_DATE : taskObject.date, TASK_COMPLETION : @(taskObject.isCompleted) };
+    return dictionary;
+}
+
+- (STCTask *)taskObjectForDictionary:(NSDictionary *)dictionary
+{
+    STCTask *taskObject = [[STCTask alloc] initWithData:dictionary];
+    return taskObject;
+}
+
 @end
