@@ -24,6 +24,7 @@
 		F8672DF41920FD6E00D51AB3 /* STCAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8672DF31920FD6E00D51AB3 /* STCAddTaskViewController.m */; };
 		F8672DF71920FD8800D51AB3 /* STCDetailTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8672DF61920FD8800D51AB3 /* STCDetailTaskViewController.m */; };
 		F8672DFA1920FD9D00D51AB3 /* STCEditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8672DF91920FD9D00D51AB3 /* STCEditTaskViewController.m */; };
+		F8672DFE1921164100D51AB3 /* STCTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F8672DFD1921164000D51AB3 /* STCTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		F8672DF61920FD8800D51AB3 /* STCDetailTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCDetailTaskViewController.m; sourceTree = "<group>"; };
 		F8672DF81920FD9D00D51AB3 /* STCEditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STCEditTaskViewController.h; sourceTree = "<group>"; };
 		F8672DF91920FD9D00D51AB3 /* STCEditTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCEditTaskViewController.m; sourceTree = "<group>"; };
+		F8672DFC1921164000D51AB3 /* STCTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STCTask.h; sourceTree = "<group>"; };
+		F8672DFD1921164000D51AB3 /* STCTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCTask.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,7 @@
 				F8672DF61920FD8800D51AB3 /* STCDetailTaskViewController.m */,
 				F8672DF81920FD9D00D51AB3 /* STCEditTaskViewController.h */,
 				F8672DF91920FD9D00D51AB3 /* STCEditTaskViewController.m */,
+				F8672DFB1921161800D51AB3 /* Models */,
 				F8672DD51920FCE700D51AB3 /* Images.xcassets */,
 				F8672DC41920FCE700D51AB3 /* Supporting Files */,
 			);
@@ -165,6 +169,15 @@
 				F8672DE51920FCE700D51AB3 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F8672DFB1921161800D51AB3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F8672DFC1921164000D51AB3 /* STCTask.h */,
+				F8672DFD1921164000D51AB3 /* STCTask.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +282,7 @@
 				F8672DF71920FD8800D51AB3 /* STCDetailTaskViewController.m in Sources */,
 				F8672DFA1920FD9D00D51AB3 /* STCEditTaskViewController.m in Sources */,
 				F8672DD41920FCE700D51AB3 /* STCViewController.m in Sources */,
+				F8672DFE1921164100D51AB3 /* STCTask.m in Sources */,
 				F8672DF41920FD6E00D51AB3 /* STCAddTaskViewController.m in Sources */,
 				F8672DCE1920FCE700D51AB3 /* STCAppDelegate.m in Sources */,
 			);

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "STCTask.h"
+
 
 @interface STCAddTaskViewController : UIViewController
 
