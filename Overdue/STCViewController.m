@@ -96,6 +96,33 @@
     return taskObject;
 }
 
+- (BOOL)isDateGreaterThanDate:(NSDate *)date and:(NSDate *)toDate
+{
+    NSTimeInterval dateInterval = [date timeIntervalSince1970];
+    NSTimeInterval toDateInterval = [toDate timeIntervalSince1970];
+    
+    if (dateInterval > toDateInterval) return YES;
+    else return NO;
+}
+
+- (void)updateCompletionOfTask:(STCTask *)task forIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray *taskObjectsAsPropertyLists = [[[NSUserDefaults standardUserDefaults] arrayForKey:TASK_OBJECTS_KEY] mutableCopy];
+    
+    if (!taskObjectsAsPropertyLists) taskObjectsAsPropertyLists = [[NSMutableArray alloc] init];
+    [taskObjectsAsPropertyLists removeObjectAtIndex:indexPath.row];
+    
+    if (task.isCompleted == YES) task.isCompleted = NO;
+    else task.isCompleted = YES;
+    
+    [taskObjectsAsPropertyLists insertObject:[self taskObjectAsAPropertyList:task] atIndex:indexPath.row];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:taskObjectsAsPropertyLists forKey:TASK_OBJECTS_KEY];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    [self.tableView reloadData];
+}
+
 #pragma UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -121,7 +148,44 @@
     NSString *stringFromDate = [formatter stringFromDate:task.date];
     cell.detailTextLabel.text = stringFromDate;
     
+    BOOL isOverdue = [self isDateGreaterThanDate:[NSDate date] and:task.date];
+    
+    if (task.isCompleted == YES) cell.backgroundColor = [UIColor greenColor];
+    else if (isOverdue == YES) cell.backgroundColor = [UIColor redColor];
+    else cell.backgroundColor = [UIColor yellowColor];
+    
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    STCTask *task = self.taskObjects[indexPath.row];
+    [self updateCompletionOfTask:task forIndexPath:indexPath];
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.taskObjects removeObjectAtIndex:indexPath.row];
+        
+        NSMutableArray *newTasksObjectsData = [[NSMutableArray alloc] init];
+        
+        for (STCTask *task in self.taskObjects) {
+            [newTasksObjectsData addObject:[self taskObjectAsAPropertyList:task]];
+        }
+        
+        [[NSUserDefaults standardUserDefaults]setObject:newTasksObjectsData forKey:TASK_OBJECTS_KEY];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 @end
