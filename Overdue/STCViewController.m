@@ -42,6 +42,13 @@
         STCAddTaskViewController *addTaskViewController = segue.destinationViewController;
         addTaskViewController.delegate = self;
     }
+    else if ([segue.destinationViewController isKindOfClass:[STCDetailTaskViewController class]])
+    {
+        STCDetailTaskViewController *detailTaskViewController = segue.destinationViewController;
+        NSIndexPath *path = sender;
+        STCTask *taskObject = self.taskObjects[path.row];
+        detailTaskViewController.task = taskObject;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -186,6 +193,11 @@
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"toDetailTaskViewControllerSegue" sender:indexPath];
 }
 
 @end

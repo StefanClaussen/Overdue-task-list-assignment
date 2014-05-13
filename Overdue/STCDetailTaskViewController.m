@@ -1,10 +1,6 @@
 //
 //  STCDetailTaskViewController.m
 //  Overdue
-//
-//  Created by Stefan Claussen on 12/05/2014.
-//  Copyright (c) 2014 One foot after the other. All rights reserved.
-//
 
 #import "STCDetailTaskViewController.h"
 
@@ -27,6 +23,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.titleLabel.text = self.task.title;
+    self.detailLabel.text = self.task.description;
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-yyyy"];
+    NSString *stringFromDate = [formatter stringFromDate:self.task.date];
+    
+    self.dateLabel.text = stringFromDate;
 }
 
 - (void)didReceiveMemoryWarning

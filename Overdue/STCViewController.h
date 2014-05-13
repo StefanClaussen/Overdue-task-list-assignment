@@ -4,6 +4,7 @@
 
 #import <UIKit/UIKit.h>
 #import "STCAddTaskViewController.h"
+#import "STCDetailTaskViewController.h"
 
 @interface STCViewController : UIViewController <STCAddTaskViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
