@@ -5,7 +5,7 @@
 #import <UIKit/UIKit.h>
 #import "STCAddTaskViewController.h"
 
-@interface STCViewController : UIViewController <STCAddTaskViewControllerDelegate>
+@interface STCViewController : UIViewController <STCAddTaskViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *taskObjects;
 

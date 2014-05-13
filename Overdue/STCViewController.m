@@ -23,6 +23,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
     NSArray *tasksAsPropertyLists = [[NSUserDefaults standardUserDefaults] arrayForKey:TASK_OBJECTS_KEY];
     
     for (NSDictionary *dictionary in tasksAsPropertyLists)
@@ -91,6 +94,34 @@
 {
     STCTask *taskObject = [[STCTask alloc] initWithData:dictionary];
     return taskObject;
+}
+
+#pragma UITableViewDataSource
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.taskObjects count];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    STCTask *task = self.taskObjects[indexPath.row];
+    cell.textLabel.text = task.title;
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *stringFromDate = [formatter stringFromDate:task.date];
+    cell.detailTextLabel.text = stringFromDate;
+    
+    return cell;
 }
 
 @end
